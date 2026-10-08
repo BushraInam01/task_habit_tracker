@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        {% if is_update %}
+            Edit Habit
+        {% else %}
+            Create Habit
+        {% endif %}
+    </title>
+</head>
+
+<body>
+
+    {% if is_update %}
+        <h1>Edit Habit</h1>
+    {% else %}
+        <h1>Create New Habit</h1>
+    {% endif %}
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        {% if is_update %}
+            <button type="submit">Update Habit</button>
+        {% else %}
+            <button type="submit">Create Habit</button>
+        {% endif %}
+
+    </form>
+
+    <br>
+
+    <a href="{% url 'habit_list' %}">
+        Back to Habits
+    </a>
+
+</body>
+</html>

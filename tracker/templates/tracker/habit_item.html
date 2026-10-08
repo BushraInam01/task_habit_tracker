@@ -1,0 +1,72 @@
+<div id="habit-{{ habit.id }}">
+
+    <h2>{{ habit.name }}</h2>
+
+    <p>{{ habit.description }}</p>
+
+    <p>Created: {{ habit.created_at }}</p>
+
+    <p>
+        🔥 Current Streak: {{ habit.get_streak }} days
+    </p>
+
+
+    {% if habit.id in completed_habits %}
+
+        <form
+            method="POST"
+            hx-post="{% url 'habit_complete' habit.id %}"
+            hx-target="#habit-{{ habit.id }}"
+            hx-swap="outerHTML"
+        >
+
+            {% csrf_token %}
+
+            <label>
+                <input
+                    type="checkbox"
+                    checked
+                    onchange="this.form.requestSubmit()"
+                >
+                Completed Today
+            </label>
+
+        </form>
+
+    {% else %}
+
+        <form
+            method="POST"
+            hx-post="{% url 'habit_complete' habit.id %}"
+            hx-target="#habit-{{ habit.id }}"
+            hx-swap="outerHTML"
+        >
+
+            {% csrf_token %}
+
+            <label>
+                <input
+                    type="checkbox"
+                    onchange="this.form.requestSubmit()"
+                >
+                Complete Today
+            </label>
+
+        </form>
+
+    {% endif %}
+
+
+    <br><br>
+
+    <a href="{% url 'habit_update' habit.id %}">
+        <button type="button">Edit</button>
+    </a>
+
+    <a href="{% url 'habit_delete' habit.id %}">
+        <button type="button">Delete</button>
+    </a>
+
+    <hr>
+
+</div>

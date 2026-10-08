@@ -1,0 +1,1 @@
+console.log("Task Tracker JavaScript loaded successfully!");

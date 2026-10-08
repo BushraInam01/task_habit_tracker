@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Weekly Summary</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+
+<body>
+
+    <h1>Weekly Summary</h1>
+
+    <p>
+        {{ start_of_week }} to {{ end_of_week }}
+    </p>
+
+
+    <hr>
+
+
+    <h2>📝 Tasks</h2>
+
+    <p>
+        Total Tasks: {{ total_tasks }}
+    </p>
+
+    <p>
+        Completed Tasks: {{ completed_tasks }}
+    </p>
+
+    <p>
+        Pending Tasks: {{ pending_tasks }}
+    </p>
+
+
+    <h2>📊 Task Progress</h2>
+
+    <canvas
+        id="taskChart"
+        data-completed="{{ completed_tasks }}"
+        data-pending="{{ pending_tasks }}"
+    ></canvas>
+
+
+    <hr>
+
+
+    <h2>🔥 Habits</h2>
+
+    <p>
+        Total Habit Completions:
+        {{ total_habit_completions }}
+    </p>
+
+
+    <h3>Habit-wise Summary</h3>
+
+    {% for habit in habit_summary %}
+
+        <p>
+            {{ habit.name }}
+            → {{ habit.weekly_completions }} completions
+        </p>
+
+    {% empty %}
+
+        <p>No habits available.</p>
+
+    {% endfor %}
+
+
+    <hr>
+
+
+    <a href="{% url 'task_list' %}">
+        Back to Tasks
+    </a>
+
+    <br><br>
+
+    <a href="{% url 'habit_list' %}">
+        Back to Habits
+    </a>
+
+    <br><br>
+
+    <a href="{% url 'calendar' %}">
+        Back to Calendar
+    </a>
+
+
+    <script>
+
+    const canvas = document.getElementById("taskChart");
+
+    const completed = canvas.dataset.completed;
+    const pending = canvas.dataset.pending;
+
+    new Chart(canvas, {
+        type: "bar",
+
+        data: {
+            labels: ["Completed", "Pending"],
+
+            datasets: [{
+                label: "Tasks",
+                data: [completed, pending]
+            }]
+        }
+    });
+
+</script>
+
+
+</body>
+
+</html>

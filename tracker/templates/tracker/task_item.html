@@ -1,0 +1,26 @@
+<div id="task-{{ task.id }}">
+
+    <h2>{{ task.title }}</h2>
+
+    <p>{{ task.description }}</p>
+
+    <p>Priority: {{ task.priority }}</p>
+
+    <p>Due Date: {{ task.due_date }}</p>
+
+    <p>Completed: {{ task.completed }}</p>
+
+    <button
+        type="button"
+        hx-get="{% url 'task_update' task.id %}"
+        hx-target="#task-{{ task.id }}"
+        hx-swap="outerHTML"
+    >
+        Edit
+    </button>
+
+    <a href="{% url 'task_delete' task.id %}">
+        <button type="button">Delete</button>
+    </a>
+
+</div>

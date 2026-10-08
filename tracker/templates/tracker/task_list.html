@@ -1,0 +1,43 @@
+{% load static %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Tasks</title>
+
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'tracker/css/style.css' %}">
+    {% endcompress %}
+
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+
+<body>
+
+    <h1>My Tasks</h1>
+
+    <a href="{% url 'task_create' %}">
+        <button type="button">Add New Task</button>
+    </a>
+
+    <br><br>
+
+    {% for task in tasks %}
+
+        {% include "tracker/task_item.html" %}
+
+        <hr>
+
+    {% empty %}
+
+        <p>No tasks available.</p>
+
+    {% endfor %}
+
+    {% compress js %}
+    <script src="{% static 'tracker/js/script.js' %}"></script>
+    {% endcompress %}
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Habits</title>
+
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+
+    <style>
+        body {
+            background-color: white;
+            color: black;
+        }
+
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+
+        .dark-mode button {
+            background-color: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 8px 12px;
+        }
+    </style>
+</head>
+
+<body class="{% if request.user.profile.dark_mode %}dark-mode{% endif %}">
+
+    <h1>My Habits</h1>
+
+    <form method="POST" action="{% url 'toggle_dark_mode' %}">
+        {% csrf_token %}
+
+        <button type="submit">
+            Toggle Dark Mode
+        </button>
+    </form>
+
+    {% for habit in habits %}
+
+        {% include "tracker/habit_item.html" %}
+
+    {% empty %}
+
+        <p>No habits available.</p>
+
+    {% endfor %}
+
+</body>
+</html>

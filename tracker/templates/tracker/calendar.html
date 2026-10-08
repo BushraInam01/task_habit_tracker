@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Task & Habit Calendar</title>
+
+    <style>
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .day-name {
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            background-color: #ddd;
+        }
+
+        .day {
+            min-height: 120px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .empty {
+            border: none;
+        }
+
+        .date {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .task {
+            margin-bottom: 5px;
+        }
+
+        .habit {
+            margin-bottom: 5px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <h1>{{ month }} {{ year }}</h1>
+
+
+    <div class="calendar">
+
+        <!-- Week Days -->
+
+        <div class="day-name">Monday</div>
+        <div class="day-name">Tuesday</div>
+        <div class="day-name">Wednesday</div>
+        <div class="day-name">Thursday</div>
+        <div class="day-name">Friday</div>
+        <div class="day-name">Saturday</div>
+        <div class="day-name">Sunday</div>
+
+
+        <!-- Empty spaces before first day -->
+
+        {% for empty in empty_days %}
+
+            <div class="day empty"></div>
+
+        {% endfor %}
+
+
+        <!-- Calendar Days -->
+
+        {% for day in calendar_data %}
+
+            <div class="day">
+
+                <div class="date">
+                    {{ day.date|date:"j" }}
+                </div>
+
+
+                {% if day.tasks %}
+
+                    <strong>📝 Tasks</strong>
+
+                    {% for task in day.tasks %}
+
+                        <div class="task">
+
+                            {{ task.title }}
+
+                            {% if task.completed %}
+                                ✅
+                            {% else %}
+                                ⏳
+                            {% endif %}
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+                {% if day.habits %}
+
+                    <strong>🔥 Habits</strong>
+
+                    {% for completion in day.habits %}
+
+                        <div class="habit">
+
+                            {{ completion.habit.name }} ✅
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+                {% if not day.tasks and not day.habits %}
+
+                    <small>No activity</small>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <br>
+
+    <a href="{% url 'habit_list' %}">
+        Back to Habits
+    </a>
+
+</body>
+
+</html>
